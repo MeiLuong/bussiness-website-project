@@ -1,0 +1,21 @@
+.breadcrumbs .breadcrumbs-content {
+    margin: 20px 0;
+}
+.theme-color{
+    color: var(--primary-color);
+}
+.link-theme {
+    color: #333;
+    text-decoration: none;
+}
+.link-theme:hover {
+    color: var(--primary-color);
+}
+
+.alert {
+    margin-bottom: 0 !important;
+}
+
+#footer {
+    margin-top: 30px;
+}

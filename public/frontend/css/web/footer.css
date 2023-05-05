@@ -1,0 +1,77 @@
+#footer, #footer-bottom {
+    background-color: #000;
+    color: #eee;
+}
+#footer .menu-item a {
+    color: #ccc;
+    font-size: 14px;
+    text-decoration: none;
+    transition: ease-in-out 500ms;
+}
+#footer .menu-item a:hover {
+    color: var(--primary-color);
+    padding-left: 5px;
+}
+
+#footer .contact-item p {
+    font-size: 14px;
+}
+#footer .contact-item a {
+    color: var(--primary-color);
+}
+#footer .address-info p {
+    font-size: 16px;
+}
+
+#footer-bottom {
+    font-size: 12px;
+}
+
+#scroll_top {
+    background: #000;
+    font-size: 30px;
+    color: #fff;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 50%;
+    position: fixed;
+    z-index: 9999;
+    right: 50px;
+    bottom: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: ease-in-out 300ms;
+    box-shadow: 0px 4px 10px 0px rgba(34,36,49,0.25);
+}
+
+#scroll_top.active {
+    bottom: 50px;
+    opacity: 1;
+    visibility: visible;
+}
+
+#scroll_top:hover {
+    background-color: orange;
+    cursor: pointer;
+}
+.social-links li {
+    padding-right: 30px;
+}
+.social-links .icon {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    display: block;
+    border: 1px solid #ddd;
+    text-align: center;
+    border-radius: 50%;
+    color: #fff;
+    transition: ease-in-out .5s;
+}
+
+.social-links a:hover .icon {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}

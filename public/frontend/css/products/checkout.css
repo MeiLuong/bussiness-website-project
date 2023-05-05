@@ -1,0 +1,176 @@
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+
+body{
+    background: url('http://all4desktop.com/data_images/original/4236532-background-images.jpg');
+    font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    color: #262626;
+    margin: 0;
+}
+.theme-color {
+    color: orange;
+}
+.btn-place-order, .btn-primary {
+    background-color: orange !important;
+    border-color: orange !important;
+    text-transform: uppercase !important;
+    color: #fff;
+}
+.btn-place-order:hover, .btn-primary:hover {
+    background-color: #000 !important;
+    border-color: #000 !important;
+}
+.link-theme {
+    color: #333;
+    text-decoration: none;
+}
+.link-theme:hover {
+    color: orange;
+}
+#header-micro {
+    padding: 15px 0;
+}
+#footer-micro {
+    height: 90px;
+    line-height: 90px;
+    background: #000;
+    color: #fff;
+    text-align: center;
+    margin-top: 30px;
+}
+#footer-micro p {
+    font-size: 12px;
+    color: #fff;
+}
+#footer-micro p a {
+    color: #fff;
+}
+#footer-micro p a:hover {
+    color: orange;
+}
+.container{
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+@media (min-width: 1200px)
+{
+    .container{
+        max-width: 1140px;
+    }
+}
+.btn-primary {
+    text-transform: uppercase;
+}
+.d-flex{
+    display: flex;
+    flex-direction: row;
+    background: #f6f6f6;
+    border-radius: 0 0 5px 5px;
+    padding: 25px;
+}
+
+
+
+.Yorder{
+    flex: 2;
+}
+.Yorder .items {
+    height: 300px;
+    overflow-y: auto;
+}
+.Yorder .items .cart-details {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+.title{
+    padding: 20px;
+    color: #333;
+    border: 1px solid #ddd;
+}
+h2{
+    margin: 0;
+    padding-left: 15px;
+}
+.required{
+    color: red;
+}
+label, table{
+    display: block;
+    margin: 15px;
+}
+label>span{
+    float: left;
+    width: 25%;
+    margin-top: 12px;
+    padding-right: 10px;
+}
+input[type="text"], input[type="tel"], input[type="email"], select
+{
+    width: 70%;
+    height: 30px;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    border: 1px solid #dadada;
+    color: #888;
+}
+select{
+    width: 72%;
+    height: 45px;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+}
+.Yorder{
+    margin-top: 15px;
+    padding: 20px;
+    border: 1px solid #dadada;
+}
+table{
+    margin: 0;
+    padding: 0;
+}
+th{
+    border-bottom: 1px solid #dadada;
+    padding: 10px 0;
+}
+tr>td:nth-child(1){
+    text-align: left;
+    color: #2d2d2a;
+}
+tr>td:nth-child(2){
+    text-align: right;
+
+}
+td{
+    border-bottom: 1px solid #dadada;
+    padding: 25px 25px 25px 0;
+}
+
+p{
+    display: block;
+    color: #888;
+    margin: 0;
+    padding-left: 25px;
+}
+.Yorder>div{
+    padding: 15px 0;
+}
+
+button{
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    background: orange;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+}
+button:hover{
+    cursor: pointer;
+    background: #212529;
+}
