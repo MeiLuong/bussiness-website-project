@@ -25,30 +25,16 @@
                             <a class="nav-link me-4 {{ (request()->segment(1) == 'blogs') ? 'active' : '' }}" href="/blogs">Blogs</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link me-4 {{ (request()->segment(1) == '1') ? 'active' : '' }}" href="/page/6">About</a>
+                            <a class="nav-link me-4 {{ (request()->segment(1) == '/page/6') ? 'active' : '' }}" href="/page/6">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link me-4 {{ (request()->segment(1) == 'blogs') ? 'active' : '' }}" href="/services">Contact</a>
+                            <a class="nav-link me-4 {{ (request()->segment(1) == 'services') ? 'active' : '' }}" href="/services">Contact</a>
                         </li>
-{{--                        <li class="nav-item nav-hover">--}}
-{{--                            <a class="nav-link me-4 dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Pages</a>--}}
-{{--                            <ul class="hover-menu">--}}
-{{--                                <li>--}}
-{{--                                    <a href="/about" class="dropdown-item {{ (request()->segment(1) == 'about') ? 'active' : '' }}">About</a>--}}
-{{--                                </li>--}}
-{{--                                <li>--}}
-{{--                                    <a href="/blogs" class="dropdown-item {{ (request()->segment(1) == 'blogs') ? 'active' : '' }}">Blogs</a>--}}
-{{--                                </li>--}}
-{{--                                <li>--}}
-{{--                                    <a href="/contact" class="dropdown-item {{ (request()->segment(1) == 'contact') ? 'active' : '' }}">Contact</a>--}}
-{{--                                </li>--}}
-{{--                            </ul>--}}
-{{--                        </li>--}}
                         <li class="nav-item">
                             <div class="user-items ps-5">
                                 <ul class="d-flex justify-content-end list-unstyled">
                                     <li class="search-item pe-3">
-                                        <a href="#" class="nav-link search-button">
+                                        <a class="nav-link search-button">
                                             <span class="icon fcp-search1"></span>
                                             <span class="label hidden">Search</span>
                                         </a>
@@ -205,113 +191,3 @@
         </div>
     </nav>
 </header>
-{{--<div class="container">--}}
-{{--    <div class="row">--}}
-{{--        @include('frontend.layout.block.search.search_product')--}}
-{{--    </div>--}}
-{{--</div>--}}
-{{--<div id="header">--}}
-{{--    <a href="./" class="logo">--}}
-{{--        <img src="assets/logo.png" alt="">--}}
-{{--    </a>--}}
-{{--    <div id="menu">--}}
-{{--        <div class="item {{ (request()->segment(1) == '') ? 'active' : '' }}">--}}
-{{--            <a href="./">Home Page</a>--}}
-{{--        </div>--}}
-{{--        <div class="item {{ (request()->segment(1) == 'home') ? 'active' : '' }}">--}}
-{{--            <a href="./home">All Product</a>--}}
-{{--        </div>--}}
-{{--        <div class="item {{ (request()->segment(1) == 'blogs') ? 'active' : '' }}">--}}
-{{--            <a href="./blogs">Blog</a>--}}
-{{--        </div>--}}
-{{--        <div class="item {{ (request()->segment(1) == 'contact') ? 'active' : '' }}">--}}
-{{--            <a href="./contact">Contact</a>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    <div id="actions">--}}
-{{--        <div class="item header-action">--}}
-{{--            <a href="{{ route('show_wishlist') }}" class="action account">--}}
-{{--                <span class="icon fcp-heart-o">--}}
-{{--                    <span class="count"></span>--}}
-{{--                </span>--}}
-{{--                <span class="label hidden">Wishlist</span>--}}
-{{--            </a>--}}
-{{--        </div>--}}
-{{--        <div class="item header-action">--}}
-{{--            <a href="" class="action account">--}}
-{{--                <span class="icon fcp-user-o"></span>--}}
-{{--                <span class="label hidden">Account</span>--}}
-{{--            </a>--}}
-{{--            <div class="dropdown-content">--}}
-{{--                <ul class="account-links items">--}}
-{{--                    <li class="item">--}}
-{{--                        <a href="account/dashboard" class="account-link register-link">Account</a>--}}
-{{--                    </li>--}}
-{{--                    <li class="item">--}}
-{{--                        <a href="{{ route('login') }}" class="account-link login-link">Login</a>--}}
-{{--                    </li>--}}
-{{--                    <li class="item">--}}
-{{--                        <a href="{{ route('register') }}" class="account-link register-link">Register</a>--}}
-{{--                    </li>--}}
-{{--                    <li class="item">--}}
-{{--                        <a href="{{ route('logout') }}" class="account-link register-link">Logout</a>--}}
-{{--                    </li>--}}
-{{--                </ul>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--        <div class="item header-action">--}}
-{{--            <a href="" class="action add-to-cart">--}}
-{{--                <span class="icon fcp-purchase">--}}
-{{--                    <span class="count">{{ count((array) session('cart')) }}</span>--}}
-{{--                </span>--}}
-{{--                <span class="label hidden">Cart</span>--}}
-{{--            </a>--}}
-{{--        </div>--}}
-{{--        <div class="">--}}
-{{--            <div class="row total-header-section">--}}
-{{--                @php $total = 0 @endphp--}}
-{{--                @foreach((array) session('cart') as $id => $details)--}}
-{{--                    @php--}}
-{{--                        $total += $details['price'] * $details['quantity']--}}
-{{--                    @endphp--}}
-{{--                @endforeach--}}
-
-{{--                <div class="total-section">--}}
-{{--                    <p class="total">--}}
-{{--                        <span class="label">Total: </span>--}}
-{{--                        <span class="value">$ {{ $total }}</span>--}}
-{{--                    </p>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-
-{{--            @if(session('cart'))--}}
-{{--                @foreach(session('cart') as $id => $details)--}}
-{{--                    <div class="row cart-details item">--}}
-{{--                        <div class="cart-image">--}}
-{{--                            <p>image</p>--}}
-{{--                        </div>--}}
-{{--                        <div class="cart-info">--}}
-{{--                            <p class="item-name">{{ $details['product_name'] }}</p>--}}
-{{--                            <p class="item-price">--}}
-{{--                                <span class="label">Price: </span>--}}
-{{--                                <span class="value">{{ $details['price'] }}</span>--}}
-{{--                            </p>--}}
-{{--                            <p class="item-qty">--}}
-{{--                                <span class="label">Qty: </span>--}}
-{{--                                <span class="price">{{ $details['quantity'] }}</span>--}}
-{{--                            </p>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                @endforeach--}}
-{{--            @endif--}}
-
-{{--            <div class="row">--}}
-{{--                <div class="checkout">--}}
-{{--                    <a href="{{ route('cart') }}" class="action view-all">--}}
-{{--                        View all--}}
-{{--                    </a>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--</div>--}}

@@ -27,6 +27,13 @@ Route::post('account/login/postLogin', [Frontend\UserController::class, 'login']
 Route::get('account/register', [Frontend\UserController::class, 'register'])->name('register');
 Route::post('account/register/postRegister', [Frontend\UserController::class, 'registerSave'])->name('postRegister');
 Route::get('account/logout', [Frontend\UserController::class, 'logOut'])->name('logout');
+Route::get('account/edit/{id}', [Frontend\UserController::class, 'edit'])->name('edit_infor');
+Route::patch('account/update/{id}', [Frontend\UserController::class, 'update'])->name('update_infor');
+Route::get('account/changePassword', [Frontend\UserController::class, 'changePassword'])->name('change_password');
+Route::post('account/changePassword', [Frontend\UserController::class, 'updatePassword'])->name('update_password');
+Route::get('account/my-order', [Frontend\CheckoutController::class, 'myOrder'])->name('myOrder');
+Route::get('account/my-order/{id}', [Frontend\CheckoutController::class, 'orderDetail'])->name('orderDetail');
+
 
 //products page
 Route::prefix('home')->group(function () {
@@ -86,6 +93,8 @@ Route::post('admin/adminer/postAdminer', [Backend\AdminController::class, 'save'
 Route::get('admin/adminer/edit/{id}', [Backend\AdminController::class, 'edit'])->name('edit_adminer');
 Route::patch('admin/adminer/{id}', [Backend\AdminController::class, 'update'])->name('update_adminer');
 Route::delete('admin/adminer/delete/{id}', [Backend\AdminController::class, 'delete'])->name('delete_adminer');
+Route::get('admin/changePassword', [Backend\AdminController::class, 'changePassword'])->name('change_passwordAD');
+Route::post('admin/changePassword', [Backend\AdminController::class, 'updatePassword'])->name('update_passwordAD');
 
 
 //category
@@ -120,6 +129,8 @@ Route::post('admin/product/create/postProduct', [Backend\ProductController::clas
 Route::get('admin/product/edit/{id}', [Backend\ProductController::class, 'edit'])->name('edit_product');
 Route::put('admin/product/{id}', [Backend\ProductController::class, 'update'])->name('update_product');
 Route::delete('admin/product/delete/{id}', [Backend\ProductController::class, 'delete'])->name('delete_product');
+Route::get('admin/product/search', [Backend\ProductController::class, 'search'])->name('searchAD');
+
 
 
 //blogs
@@ -141,9 +152,13 @@ Route::delete('admin/page/delete/{id}', [Backend\PageController::class, 'delete'
 
 //checkout
 Route::get('/admin/orders', [Backend\CheckoutController::class, 'orders'])->name('orders');
+Route::get('/admin/new-orders', [Backend\CheckoutController::class, 'new'])->name('news');
 Route::get('/admin/orders/invoices', [Backend\CheckoutController::class, 'invoices'])->name('invoices');
 Route::get('/admin/orders/shipments', [Backend\CheckoutController::class, 'shipments'])->name('shipments');
 Route::get('/admin/orders/cancels', [Backend\CheckoutController::class, 'cancels'])->name('cancels');
+Route::get('admin/orders/edit/{id}', [Backend\CheckoutController::class, 'edit'])->name('edit_order');
+Route::post('admin/orders/{id}', [Backend\CheckoutController::class, 'update'])->name('update_order');
+
 
 
 

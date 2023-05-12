@@ -3,25 +3,16 @@
 @section('title', 'Categories')
 @section('body')
     <div class="row">
+        <div class="actions">
+            <a href="{{ route('create_category') }}" class="action-link">
+                <button class="action add-new">Add New</button>
+            </a>
+        </div>
         @if($count <= 0)
             <div class="text-centert">
                 No data to display
             </div>
         @else
-            <div class="actions">
-                <a href="{{ route('create_category') }}" class="action-link">
-                    <button class="action add-new">Add New</button>
-                </a>
-            </div>
-            <div class="tool-bar">
-                <div class="actions search-group">
-                    <label class="label">ID:</label>
-                    <input type="text" id="" name="" class="text-input">
-                    <label class="label">Category name:</label>
-                    <input type="text" id="" name="" class="text-input">
-                    <button type="" class="action search">Search</button>
-                </div>
-            </div>
             <div class="table-container">
                 <table border="1" width="100%" class="table table-bordered table-striped table-responsive-stack">
                     <thead class="table-dark">

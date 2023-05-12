@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,8 +17,19 @@ class ProductController extends Controller
     public function index() {
         $products = Product::all();
         $count = Product::all()->count();
+//        $orderCompletes = OrderDetail::with('product')->where('status', 'completed')->get();
+
+
 
         return view('backend.layout.page.products.product', compact('products', 'count'));
+    }
+
+    public function search(Request $request) {
+        $search = $request->search ?? '';
+        $products = Product::where('product_name', 'like', '%' . $search . '%')->get();
+        $count = Product::where('product_name', 'like', '%' . $search . '%')->count();
+        return view('backend.layout.page.products.product', compact('products', 'count'));
+
     }
 
     public function add() {

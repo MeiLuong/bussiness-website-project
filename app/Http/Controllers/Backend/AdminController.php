@@ -20,7 +20,7 @@ class AdminController extends Controller
     public function login(Request $request) {
 
         $request->validate([
-            'username' => 'required',
+            'user_name' => 'required',
             'password' => 'required'
         ]);
 
@@ -79,8 +79,7 @@ class AdminController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'phone' => $data['phone'],
-            'level' => $data['level'],
-            'address' => $data['address']
+            'level' => $data['level']
         ]);
     }
 
@@ -102,5 +101,29 @@ class AdminController extends Controller
     public function delete($id) {
         User::destroy($id);
         return redirect('/admin/adminer')->with('success', 'Delete adminer successfully.');
+    }
+
+    public function changePassword() {
+        return view('backend.layout.page.users.changePassword');
+    }
+
+    public function updatePassword(Request $request) {
+        $request->validate([
+            'current_password' => 'required|min:6',
+            'password' => 'required|min:6',
+            'confirm_password' => 'required_with:password|same:password|min:6'
+        ]);
+
+        $currentPassword = Hash::check($request->current_password, auth()->user()->password);
+
+        if($currentPassword) {
+            User::findOrFail(Auth::user()->id)->update([
+                'password' => Hash::make($request->password)
+            ]);
+            return redirect('/admin/dashboard')->with('success', 'Password test updated successfully.');
+        }
+        else {
+            return redirect()->back()->with('error', 'Current password does not match width old password.');
+        }
     }
 }

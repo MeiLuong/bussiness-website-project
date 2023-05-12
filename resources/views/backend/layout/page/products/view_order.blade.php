@@ -2,6 +2,10 @@
 
 @section('title', 'Orders')
 
+@section('style')
+
+@endsection
+
 @section('body')
     <div class="row">
         <div class="tool-bar">
@@ -24,7 +28,6 @@
                     <th>Status</th>
                     <th>Created at</th>
                     <th>Updated at</th>
-                    <th></th>
                     <th></th>
                 </tr>
                 </thead>
@@ -51,16 +54,16 @@
                         </td>
                         <td>{{ $order->created_at }}</td>
                         <td>{{ $order->updated_at }}</td>
-                        <td>
-                            <a href="{{ route('edit_product', $order->id) }}"><button class="btn btn-secondary btn-sm">Edit</button></a>
-                        </td>
-                        <td>
-                            <form action="{{ route('delete_product', $order->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="action delete btn btn-danger btn-sm" onclick="return confirm('Do you want to delete this order?')">Delete</button>
-                            </form>
-                        </td>
+                        @if($order->status == 'completed' || $order->status == 'cancel')
+                            <td>
+                                <a href="{{ route('edit_order', $order->id) }}"><button class="btn btn-secondary btn-sm btn-info">View</button></a>
+                            </td>
+                        @else
+                            <td>
+                                <a href="{{ route('edit_order', $order->id) }}"><button class="btn btn-secondary btn-sm">Edit</button></a>
+                            </td>
+                        @endif
+
                     </tr>
                 @endforeach
                 </tbody>

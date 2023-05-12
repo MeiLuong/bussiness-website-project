@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Frontend;
 use App\Models\Cart;
+use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Session;
@@ -72,10 +75,14 @@ class UserController extends Controller
         if(Auth::check()) {
             $carts = Cart::with('product')->where('user_id', Auth::user()->id)->get();
             $count = Cart::with('product')->where('user_id', Auth::user()->id)->count();
-            return view('frontend.layout.page.account.dashboard', compact('carts', 'count'));
+            $user = User::where('id', Auth::user()->id);
+            return view('frontend.layout.page.account.dashboard', compact('carts', 'count', 'user'));
         }
 
         return redirect('/account/login')->with('success', "Register successfully.");
+//        $segment = $request->segment(1);
+//
+//        dd($segment);
     }
 
     public function logOut() {
@@ -83,6 +90,54 @@ class UserController extends Controller
         Auth::logout();
 
         return redirect('/account/login')->with('success', "Log out successfully.");
+    }
+
+    public function edit($id) {
+        $user = User::find($id);
+        $carts = Cart::with('product')->where('user_id', Auth::user()->id)->get();
+        $count = Cart::with('product')->where('user_id', Auth::user()->id)->count();
+
+        return view('frontend.layout.page.account.edit', compact('carts', 'count'))->with('user', $user);
+    }
+
+    public function update(Request $request, $id) {
+        $request->validate([
+            'name' => 'required',
+            'user_name' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
+        ]);
+        $customer = User::find($id);
+        $input = $request->all();
+        $customer->update($input);
+        return redirect('/account/dashboard')->with('success', 'Account information updated successfully.');
+    }
+
+    public function changePassword() {
+        $carts = Cart::with('product')->where('user_id', Auth::user()->id)->get();
+        $count = Cart::with('product')->where('user_id', Auth::user()->id)->count();
+
+        return view('frontend.layout.page.account.change_password', compact('carts', 'count'));
+    }
+
+    public function updatePassword(Request $request) {
+        $request->validate([
+            'current_password' => 'required|min:6',
+            'password' => 'required|min:6',
+            'confirm_password' => 'required_with:password|same:password|min:6'
+        ]);
+
+        $currentPassword = Hash::check($request->current_password, auth()->user()->password);
+
+        if($currentPassword) {
+            User::findOrFail(Auth::user()->id)->update([
+                'password' => Hash::make($request->password)
+            ]);
+            return redirect('/account/dashboard')->with('success', 'Password updated successfully.');
+        }
+        else {
+            return redirect()->back()->with('error', 'Current password does not match width old password.');
+        }
     }
 
 }

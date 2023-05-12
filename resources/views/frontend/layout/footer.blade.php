@@ -80,7 +80,7 @@
                                     <a href="#">Returns Policies</a>
                                 </li>
                                 <li class="menu-item pb-2">
-                                    <a href="#">Shipping + Delivery</a>
+                                    <a href="#">Shipping & Delivery</a>
                                 </li>
                                 <li class="menu-item pb-2">
                                     <a href="#">Contact Us</a>

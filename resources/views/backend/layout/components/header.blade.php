@@ -34,7 +34,9 @@
                     </a>
 
                     <div class="dropdown-divider"></div>
-
+                    <a class="dropdown-item" href="{{ route('change_passwordAD') }}">
+                        Change Password
+                    </a>
                     <a class="dropdown-item" href="{{ route('logoutAdmin') }}">
                         Logout
                     </a>

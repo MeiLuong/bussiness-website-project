@@ -147,6 +147,10 @@
                         </div>
                     @endforeach
 
+                    <div class="pager" style="margin-top: 20px">
+                        {{ $products->links() }}
+                    </div>
+
                 </div>
             </div>
         </div>

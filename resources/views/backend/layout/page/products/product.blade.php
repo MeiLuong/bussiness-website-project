@@ -3,6 +3,21 @@
 @section('title', 'Products')
 @section('body')
     <div class="row">
+        <div class="tool-bar">
+            <div class="actions">
+                <a href="{{ route('create_product') }}" class="action-link">
+                    <button class="action add-new">Add New</button>
+                </a>
+            </div>
+            <form action="{{ route('searchAD') }}" method="GET">
+                <div class="search-group align-items-center" style="display: flex; margin-bottom: 10px">
+                    <input type="text" value="{{ request('search') }}" id="search" name="search" class="text-input" placeholder="Search...">
+                    <button type="submit" class="btn btn-secondary action search" style="margin-left: 5px">Search</button>
+                    <a href="{{ route('products') }}" class="btn btn-secondary" style="margin-left: 5px">Reset</a>
+                </div>
+            </form>
+
+        </div>
         @if($count <= 0)
             <div class="text-centert">
                 No data to display
@@ -11,24 +26,7 @@
             <div>
                 <h5>Total: {{ $count }}</h5>
             </div>
-            <div class="tool-bar">
-                <div class="actions">
-                    <a href="{{ route('create_product') }}" class="action-link">
-                        <button class="action add-new">Add New</button>
-                    </a>
-                </div>
-                <div class="actions search-group">
-                    <label class="label">ID:</label>
-                    <input type="text" id="" name="" class="text-input">
-                    <label class="label">Product name:</label>
-                    <input type="text" id="" name="" class="text-input">
-                    <label class="label">Price from:</label>
-                    <input type="text" id="" name="" class="text-input">
-                    <label class="label">to:</label>
-                    <input type="text" id="" name="" class="text-input">
-                    <button type="" class="action search">Search</button>
-                </div>
-            </div>
+
             <div class="table-container">
                 <table border="1" width="100%" class="table table-bordered table-striped table-responsive-stack">
                     <thead class="table-dark">
@@ -43,6 +41,7 @@
                         <th>Discount(%)</th>
                         <th>Status</th>
                         <th>Quantity</th>
+                        <th>Stock</th>
                         <th>Created at</th>
                         <th>Updated at</th>
                         <th></th>
@@ -75,6 +74,15 @@
                                 @endif
                             </td>
                             <td>{{ $product->product_qty }}</td>
+                            <td>
+                                <?php
+                                    $stock = $product->product_qty ;
+//                                    $stock = $product->orderDetails->qty ;
+                                ?>
+
+
+                                <?= $stock ?>
+                            </td>
                             <td>{{ $product->created_at }}</td>
                             <td>{{ $product->updated_at }}</td>
                             <td>

@@ -16,8 +16,9 @@
             </a>
             <ul class="nav-group-items">
                 <li class="nav-item"><a class="nav-link" href="{{ route('orders') }}"><span class="nav-icon"></span> Orders</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('invoices') }}"><span class="nav-icon"></span> Invoices</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('shipments') }}"><span class="nav-icon"></span> Shipments</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('news') }}"><span class="nav-icon"></span> New Orders</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('invoices') }}"><span class="nav-icon"></span> Processing</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('shipments') }}"><span class="nav-icon"></span> Completed</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('cancels') }}"><span class="nav-icon"></span> Cancel</a></li>
             </ul>
         </li>

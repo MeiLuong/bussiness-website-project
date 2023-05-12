@@ -19,3 +19,13 @@
 #footer {
     margin-top: 30px;
 }
+
+.account-sidebar {
+    padding: 20px;
+    border: 1px solid #ddd;
+    min-height: 500px;
+    border-radius: 8px;
+}
+.account-sidebar .nav-item {
+    padding: 10px 0;
+}

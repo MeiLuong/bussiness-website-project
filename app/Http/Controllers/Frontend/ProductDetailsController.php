@@ -102,6 +102,7 @@ class ProductDetailsController extends Controller
         $products = $this->filter($products, $request);
 
         $products = $this->sortAndPagination($products, $sortby, $perPage);
+//        $countProducts = $this->sortAndPagination($products, $sortby, $perPage)->count();
 
         //for cart
         if(!Auth::check())
@@ -117,11 +118,7 @@ class ProductDetailsController extends Controller
 
     }
 
-    public function productSale() {
-        $products = Product::where('product_label', 'sale')->get();
 
-        return view('frontend.layout.products.product_listing', compact('products'));
-    }
 
 
     public function sortAndPagination($products, $sortby, $perPage) {

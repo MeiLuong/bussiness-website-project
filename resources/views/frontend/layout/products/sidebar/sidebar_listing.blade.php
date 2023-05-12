@@ -10,7 +10,7 @@
                 @foreach($categories as $category)
 
                     <li class="filter-category item">
-                        <a href="{{ $category->category_name }}" class="filter-link category-link link-theme {{ (request()->segment(1) == 'categoryName') ? 'active' : '' }}">{{ $category->category_name }}</a>
+                        <a href="{{ route('categoryName', $category->category_name) }}" class="filter-link category-link link-theme">{{ $category->category_name }}</a>
                     </li>
 
                 @endforeach

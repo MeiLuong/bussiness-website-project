@@ -132,9 +132,9 @@
             </div>
         @endif
         <label class="label">Username</label>
-        <input type="text" placeholder="Username or Email" name="username" id="username" autofocus>
-        @if($errors->has('username'))
-            <span class="text-danger">{{ $errors->first('username') }}</span>
+        <input type="text" placeholder="Username or Email" name="user_name" id="user_name" autofocus>
+        @if($errors->has('user_name'))
+            <span class="text-danger">{{ $errors->first('user_name') }}</span>
         @endif
 
         <label class="label">Password</label>

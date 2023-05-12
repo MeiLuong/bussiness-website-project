@@ -30,7 +30,7 @@ class CheckoutController extends Controller
         foreach ($carts as $cart) {
             $data = [
                 'order_id' => $order->id,
-                'product_id' => $cart->id,
+                'product_id' => $cart->product_id,
                 'qty' => $cart->quantity,
                 'amount' => $cart->price,
                 'total' => $cart->quantity * $cart->price
@@ -40,13 +40,28 @@ class CheckoutController extends Controller
             Cart::where('product_id', $cart->product_id)->delete();
         }
 
-
-
-
-
-
         $orderId = $order->id;
 
         return view('frontend.layout.products.checkout.success', compact('orderId'));
+    }
+
+    public function myOrder() {
+        $orders = Order::with('orderDetails')->where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
+        $coutOrder = Order::with('orderDetails')->where('user_id', Auth::user()->id)->count();
+
+        $carts = Cart::with('product')->where('user_id', Auth::user()->id)->get();
+        $count = Cart::with('product')->where('user_id', Auth::user()->id)->count();
+
+        return view('frontend.layout.page.account.order', compact('carts', 'count', 'orders', 'coutOrder'));
+    }
+
+    public function orderDetail($id) {
+        $orderDetail = Order::findOrFail($id);
+//        $productOrders = OrderDetail::with('product')->where('product_id', $orderDetail->orderDetails->product_id)->get();
+
+        $carts = Cart::with('product')->where('user_id', Auth::user()->id)->get();
+        $count = Cart::with('product')->where('user_id', Auth::user()->id)->count();
+
+        return view('frontend.layout.page.account.orderDetail', compact('carts', 'count', 'orderDetail'));
     }
 }

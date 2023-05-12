@@ -1,105 +1,89 @@
 @extends('frontend.layout.master')
 
+@section('breadcrumbs')
+    <div class="breadcrumbs-content">
+        <span class="icon fcp-home"></span>
+        <span>Home</span> / Account / My Wishlist
+    </div>
+@endsection
+
 @section('body')
     <div class="main-content">
         <div class="container">
-            <div class="page-title">
+            <div class="page-title text-center">
                 <h3 class="title">Wishlist</h3>
             </div>
             <div class="page-content">
                 <div class="row">
+                    <div class="col-3">
+                        @include('frontend.layout.block.sidebar.account_sidebar ')
+                    </div>
+                    <div class="col-9">
+                        @if(count($wishlist) <= 0)
+                            <div class="message">
+                                No item on wishlist!
+                            </div>
+                        @else
+                            <ul class="row products wishlist-items items">
+                                @foreach($wishlist as $key=>$item)
+                                    <li class="product wishlist-item item product-item col-lg-4 col-md-6">
+                                        <div class="product-item-info">
+                                            <div class="product-image">
+                                                <a href="/home/product/{{ $item->id }}" class="image-link">
+                                                    @if($item->product_discount != null)
+                                                        <span class="label">Sale</span>
+                                                    @endif
 
-                    @include('frontend.layout.block.sidebar.account_sidebar ')
-
-                    @if(count($wishlist) <= 0)
-                        <div class="message">
-                            No item on wishlist!
-                        </div>
-                    @else
-                        <ul class="products wishlist-items items">
-                            @foreach($wishlist as $key=>$item)
-                                <li class="product wishlist-item item product-item col-lg-4 col-md-6">
-                                    <div class="product-item-info">
-                                        <div class="product-image">
-                                            <a href="/home/product/{{ $item->id }}" class="image-link">
-                                                {{--                                    @if($item->product_discount != null)--}}
-                                                <span class="label">Sale</span>
-                                                {{--                                    @endif--}}
-
-                                                <img class="main-image" src="frontend/img/products/20-146-c2-1.jpg" alt="">
-                                            </a>
-
-                                        </div>
-
-                                        <div class="product-infor">
-                                            <div class="product-name name">
-                                                <a href="/home/product/{{ $item->id }}" class="product-link">
-                                                    {{ $item->product->product_name }}
+                                                    @if($item->product->product_image == null)
+                                                        <img src="assets/images/products/product-default-list-350.jpeg" width="100%"/>
+                                                    @else
+                                                        <img src="public/assets/images/products/{{ $item->product->product_image }}" width="100%"/>
+                                                    @endif
                                                 </a>
-                                            </div>
-
-                                            <div class="product-reviews stars">
-                                    <span>
-                                        <img src="assets/star.png" alt="">
-                                    </span>
-                                                <span>
-                                        <img src="assets/star.png" alt="">
-                                    </span>
-                                                <span>
-                                        <img src="assets/star.png" alt="">
-                                    </span>
-                                                <span>
-                                        <img src="assets/star.png" alt="">
-                                    </span>
-                                                <span>
-                                        <img src="assets/star.png" alt="">
-                                    </span>
-                                                {{--                                        <span class="count-reviews">--}}
-                                                {{--                                            @if(count($item->productReviews) > 0)--}}
-                                                {{--                                                <span class="number">--}}
-                                                {{--                                                    {{ count($item->productReviews) }}--}}
-                                                {{--                                                </span>--}}
-                                                {{--                                                @if(count($item->productReviews) > 1)--}}
-                                                {{--                                                    <span class="label">reviews</span>--}}
-                                                {{--                                                @else--}}
-                                                {{--                                                    <span class="label">review</span>--}}
-                                                {{--                                                @endif--}}
-
-                                                {{--                                            @endif--}}
-                                                {{--                                        </span>--}}
 
                                             </div>
 
-                                            <div class="product-price price">
-                                                @if($item->product_discount != null)
+                                            <div class="product-infor">
+                                                <div class="product-name name">
+                                                    <a href="/home/product/{{ $item->id }}" class="product-link link-theme">
+                                                        {{ $item->product->product_name }}
+                                                    </a>
+                                                </div>
 
-                                                    <span class="price-discount">RM{{ $item->product->product_discount }}</span>
-                                                    <span class="price">RM{{ $item->product->product_price }}</span>
+                                                <div class="product-price price">
+                                                    @if($item->product_discount != null)
 
-                                                @else
+                                                        <span class="old-price mr-2">RM{{ $item->product->product_old_price }}</span>
+                                                        <span class="current-price font-weight-bold ">RM{{ $item->product->product_price }}</span>
 
-                                                    <span class="price">RM{{ $item->product->product_price }}</span>
+                                                    @else
 
-                                                @endif
+                                                        <span class="current-price font-weight-bold">RM{{ $item->product->product_price }}</span>
+
+                                                    @endif
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="actions col-6">
+                                                        <form action="{{ route('add_to_cart', $item->product_id) }}" method="POST" class="post-form">
+                                                            @csrf
+                                                            <input type = "hidden" id="product_qty" name="product_qty" min = "0" value = "1">
+                                                            <button type = "submit" class = "btn btn-sm btn-black action add-to-cart">Add to Cart</button>
+                                                        </form>
+                                                    </div>
+                                                    <div class="wishlist-actions col-6">
+                                                        <button class="action remove" onclick="removeItem('{{ $item->product->id }}')">Remove</button>
+                                                    </div>
+                                                </div>
                                             </div>
 
-                                            <div class="actions">
-                                                <form action="{{ route('add_to_cart', $item->id) }}" method="POST" class="post-form">
-                                                    @csrf
-                                                    <input type = "hidden" id="product_qty" name="product_qty" min = "0" value = "1">
-                                                    <button type = "submit" class = "btn btn-sm btn-black action add-to-cart">Add to Cart</button>
-                                                </form>
-                                            </div>
-                                            <div class="wishlist-actions">
-                                                <button class="action remove" onclick="removeItem('{{ $item->product->id }}')">Remove</button>
-                                            </div>
                                         </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </div>
 
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endif
                 </div>
             </div>
         </div>

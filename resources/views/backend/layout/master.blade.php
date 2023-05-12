@@ -35,6 +35,7 @@
         // Bootstrap ID
         gtag('config', 'UA-118965717-5');
     </script>
+    @yield('style')
     @yield('script')
 </head>
 

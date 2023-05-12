@@ -22,6 +22,7 @@
 
             <div class="row">
                 <div class="checkout-details col-8">
+                    <input type="hidden" value="{{ \Illuminate\Support\Facades\Auth::user()->id }}" name="user_id" class="form-control">
                     <label>
                         <span class="fname label">First Name <span class="required">*</span></span>
                         <input type="text" name="first_name" class="form-control">
@@ -31,7 +32,7 @@
                         <input type="text" name="last_name" class="form-control">
                     </label>
                     <label>
-                        <span class="label">Company Name (Optional)</span>
+                        <span class="label">Company Name</span>
                         <input type="text" name="company_name" class="form-control">
                     </label>
                     <label>

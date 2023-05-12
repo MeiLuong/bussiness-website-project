@@ -21,50 +21,15 @@
     <script type="text/javascript">
         $(document).ready(function(){
 
-            {{--var cartid = $(this).data('cartid');--}}
-            {{--$.ajax({--}}
-            {{--    url: '{{ route('update_cart') }}',--}}
-            {{--    method: "post",--}}
-            {{--    headers: {--}}
-            {{--        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
-            {{--    },--}}
-            {{--    data: {--}}
-            {{--        cartid: cartid,--}}
-            {{--        qty: new_qty--}}
-            {{--    },--}}
-            {{--    success: function (resp) {--}}
-            {{--        if(resp.status==false) {--}}
-            {{--            alert(resp.message);--}}
-            {{--        }--}}
-            {{--        $("#appendCartItems").html(resp.view);--}}
-            {{--    },--}}
-            {{--    error:function() {--}}
-            {{--        alert("Error");--}}
-            {{--    }--}}
-            {{--});--}}
-
-            {{--$('.cart-remove').click(function (e) {--}}
-            {{--    e.preventDefault();--}}
-
-            {{--    var ele = $(this);--}}
-
-            {{--    // if(confirm('Do you really want to remove?')) {--}}
-            {{--    //--}}
-            {{--    // }--}}
-            {{--    $.ajax({--}}
-            {{--        url: '{{ route('remove_from_cart') }}',--}}
-            {{--        method: "DELETE",--}}
-            {{--        data: {--}}
-            {{--            _token: '{{ csrf_token() }}',--}}
-            {{--            id: ele.parents("tr").attr("data-id")--}}
-            {{--        },--}}
-            {{--        success: function (response) {--}}
-            {{--            window.location.reload();--}}
-            {{--        }--}}
-            {{--    });--}}
-            {{--});--}}
         });
     </script>
+@endsection
+
+@section('breadcrumbs')
+    <div class="breadcrumbs-content">
+        <span class="icon fcp-home"></span>
+        <span>Home</span> / Shopping Cart
+    </div>
 @endsection
 
 @section('body')
@@ -173,26 +138,6 @@
                                                     <h5 class="text-uppercase">item: {{ $count }}</h5>
                                                 @endif
 
-                                            </div>
-
-                                            <h5 class="text-uppercase mb-3">Shipping</h5>
-
-                                            <div class="mb-4 pb-2">
-                                                <select class="select">
-                                                    <option value="1">Standard-Delivery- €5.00</option>
-                                                    <option value="2">Two</option>
-                                                    <option value="3">Three</option>
-                                                    <option value="4">Four</option>
-                                                </select>
-                                            </div>
-
-                                            <h5 class="text-uppercase mb-3">Discount Code</h5>
-
-                                            <div class="mb-5">
-                                                <div class="form-outline">
-                                                    <input type="text" id="form3Examplea2" class="form-control form-control-lg" />
-                                                    <label class="form-label" for="form3Examplea2">Enter your code</label>
-                                                </div>
                                             </div>
 
                                             <hr class="my-4">
