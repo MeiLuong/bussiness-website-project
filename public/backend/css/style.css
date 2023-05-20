@@ -322,6 +322,8 @@ table {
 .table-container {
     width: 100%;
     overflow-x: auto;
+    max-height: 500px;
+    overflow-y: auto;
 }
 .thead-dark {
     background-color: var(--cui-dark-rgb);

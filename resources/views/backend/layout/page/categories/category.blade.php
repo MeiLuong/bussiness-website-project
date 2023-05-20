@@ -24,7 +24,7 @@
                         <th>Created at</th>
                         <th>Updated at</th>
                         <th></th>
-                        <th></th>
+
                     </tr>
                     </thead>
 
@@ -46,13 +46,7 @@
                             <td>
                                 <a href="{{ route('edit_category', $category->id) }}"><button class="btn btn-secondary btn-sm">Edit</button></a>
                             </td>
-                            <td>
-                                <form action="{{ route('delete_category', $category->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="action delete btn btn-danger btn-sm" onclick="return confirm('Do you want to delete this category?')">Delete</button>
-                                </form>
-                            </td>
+
                         </tr>
                     @endforeach
                     </tbody>

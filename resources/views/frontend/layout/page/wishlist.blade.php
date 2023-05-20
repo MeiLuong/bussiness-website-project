@@ -30,9 +30,6 @@
                                         <div class="product-item-info">
                                             <div class="product-image">
                                                 <a href="/home/product/{{ $item->id }}" class="image-link">
-                                                    @if($item->product_discount != null)
-                                                        <span class="label">Sale</span>
-                                                    @endif
 
                                                     @if($item->product->product_image == null)
                                                         <img src="assets/images/products/product-default-list-350.jpeg" width="100%"/>
@@ -40,6 +37,9 @@
                                                         <img src="public/assets/images/products/{{ $item->product->product_image }}" width="100%"/>
                                                     @endif
                                                 </a>
+                                                @if($item->product->product_discount != null)
+                                                    <span class="sale btn-sale">{{ $item->product->product_discount }}%</span>
+                                                @endif
 
                                             </div>
 
@@ -65,11 +65,16 @@
 
                                                 <div class="row">
                                                     <div class="actions col-6">
-                                                        <form action="{{ route('add_to_cart', $item->product_id) }}" method="POST" class="post-form">
-                                                            @csrf
-                                                            <input type = "hidden" id="product_qty" name="product_qty" min = "0" value = "1">
-                                                            <button type = "submit" class = "btn btn-sm btn-black action add-to-cart">Add to Cart</button>
-                                                        </form>
+                                                        @if($item->product->product_status == 1)
+                                                            <form action="{{ route('add_to_cart', $item->product_id) }}" method="POST" class="post-form">
+                                                                @csrf
+                                                                <input type = "hidden" id="product_qty" name="product_qty" min = "0" value = "1">
+                                                                <input type = "hidden" id="product_stock" name="product_stock" min = "0" value = "{{ $item->product->product_qty }}">
+                                                                <button type = "submit" class = "btn btn-sm btn-black action add-to-cart">Add to Cart</button>
+                                                            </form>
+                                                        @else
+                                                            <p class="text-danger">Out of stock</p>
+                                                        @endif
                                                     </div>
                                                     <div class="wishlist-actions col-6">
                                                         <button class="action remove" onclick="removeItem('{{ $item->product->id }}')">Remove</button>

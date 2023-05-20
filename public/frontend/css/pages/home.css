@@ -227,6 +227,17 @@ h3.cart-title {
 --------------------------------------------------------------*/
 /* - Button Sizes
 ------------------------------------------------------------- */
+.product-image {
+    position: relative;
+}
+.btn-sale {
+    color: #fff;
+    background-color: var(--primary-color);
+    padding: 4px 15px;
+    position: absolute;
+    top: 10px;
+    left: 0;
+}
 .btn.btn-small {
     margin: 0 1px;
     padding: 0.8em 1.8em;

@@ -39,11 +39,18 @@
 </div>
 
 <div class = "purchase-info">
-    <form action="{{ route('add_to_cart', $product->id) }}" method="POST" class="post-form">
-        @csrf
-        <input type = "number" id="product_qty" name="product_qty" min = "0" value = "1">
-        <button type = "submit" class = "btn btn-full btn-primary">Add to Cart</button>
-    </form>
+    @if($product->product_status == 1)
+        <form action="{{ route('add_to_cart', $product->id) }}" method="POST" class="post-form">
+            @csrf
+
+            <input type = "number" id="product_qty" name="product_qty" min = "0" value = "1">
+            <input type = "hidden" id="product_stock" name="product_stock" min = "0" value = "{{ $product->product_qty }}">
+            <button type = "submit" class = "btn btn-full btn-primary">Add to Cart</button>
+        </form>
+    @else
+        <p class="text-danger">Out of stock</p>
+    @endif
+
 </div>
 
 <div class = "social-links">

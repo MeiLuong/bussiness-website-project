@@ -78,20 +78,20 @@
 
 <!-- Js Plugins -->
 
-<script src="frontend/js/website.js"></script>
-{{--<script src="frontend/js/script.js"></script>--}}
-<script src="frontend/js/app.js"></script>
-<script src="frontend/js/jquery-3.3.1.min.js"></script>
-<script src="frontend/js/bootstrap.min.js"></script>
-<script src="frontend/js/jquery-ui.min.js"></script>
-<script src="frontend/js/jquery.countdown.min.js"></script>
-<script src="frontend/js/jquery.nice-select.min.js"></script>
-<script src="frontend/js/jquery.zoom.min.js"></script>
-<script src="frontend/js/jquery.dd.min.js"></script>
-<script src="frontend/js/jquery.slicknav.js"></script>
-<script src="frontend/js/owl.carousel.min.js"></script>
-<script src="frontend/js/main.js"></script>
-<script src="frontend/js/web/focus.js"></script>
+    <script src="frontend/js/website.js"></script>
+    {{--<script src="frontend/js/script.js"></script>--}}
+    <script src="frontend/js/app.js"></script>
+    <script src="frontend/js/jquery-3.3.1.min.js"></script>
+    <script src="frontend/js/bootstrap.min.js"></script>
+    <script src="frontend/js/jquery-ui.min.js"></script>
+    <script src="frontend/js/jquery.countdown.min.js"></script>
+    <script src="frontend/js/jquery.nice-select.min.js"></script>
+    <script src="frontend/js/jquery.zoom.min.js"></script>
+    <script src="frontend/js/jquery.dd.min.js"></script>
+    <script src="frontend/js/jquery.slicknav.js"></script>
+    <script src="frontend/js/owl.carousel.min.js"></script>
+    <script src="frontend/js/main.js"></script>
+    <script src="frontend/js/web/focus.js"></script>
     <script src="frontend/js/web/jquery-1.11.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script type="text/javascript" src="frontend/js/web/bootstrap.bundle.min.js"></script>

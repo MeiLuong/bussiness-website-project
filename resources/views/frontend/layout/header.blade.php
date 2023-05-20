@@ -28,9 +28,6 @@
                             <a class="nav-link me-4 {{ (request()->segment(1) == '/page/6') ? 'active' : '' }}" href="/page/6">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link me-4 {{ (request()->segment(1) == 'services') ? 'active' : '' }}" href="/services">Contact</a>
-                        </li>
-                        <li class="nav-item">
                             <div class="user-items ps-5">
                                 <ul class="d-flex justify-content-end list-unstyled">
                                     <li class="search-item pe-3">
@@ -161,7 +158,7 @@
                                                             <div class="total-section">
                                                                 <p class="total">
                                                                     <span class="label">Total: </span>
-                                                                    <span class="value">${{ $total }}</span>
+                                                                    <span class="value">RM{{ $total }}</span>
                                                                 </p>
                                                             </div>
                                                         </div>

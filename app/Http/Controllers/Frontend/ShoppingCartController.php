@@ -24,20 +24,27 @@ class ShoppingCartController extends Controller
 
     public function addToCart(Request $request, $id) {
         if (Auth::id()) {
-            $user = auth()->user();
-            $product = Product::find($id);
+            if ($request->product_qty > $request->product_stock) {
+                return redirect()->back()->with('error', 'Product quantity not enough.');
+            }
+            else if($request->product_qty < 1) {
+                return redirect()->back()->with('error', 'Product quantity must be bigger than 1.');
+            }
+            else {
+                $user = auth()->user();
+                $product = Product::find($id);
 
+                $cart = new Cart;
+                $cart->user_id = $user->id;
+                $cart->name = $user->name;
+                $cart->product_id = $product->id;
+                $cart->quantity = $request->product_qty;
+                $cart->price = $product->product_price;
+                $cart->save();
 
-            $cart = new Cart;
-            $cart->user_id = $user->id;
-            $cart->name = $user->name;
-            $cart->product_id = $product->id;
-            $cart->quantity = $request->product_qty;
-            $cart->price = $product->product_price;
+                return redirect()->back()->with('success', 'Product have been added in cart.');
+            }
 
-            $cart->save();
-
-            return redirect()->back()->with('success', 'Product have been added in cart.');
         }
         else {
             return redirect('account/login');
@@ -45,39 +52,47 @@ class ShoppingCartController extends Controller
     }
 
     public function update(Request $request) {
+//        dd($request);
+        $request->validate([
+            'quantity' => 'required'
+        ]);
 
-        if ($request->ajax()) {
-            $data = $request->all();
+        $cartId = $request->id;
+        $qty = $request->quantity;
+        $stock = $request->product_stock;
 
-//            get cart details
-//            $cartDetails = Cart::find($data['cartid']);
-
-//            get available product stock
-//            $availableStock = Product::select('product_qty')->where(['id' => $cartDetails['product_id']])->first()->toArray();
-
-
-            echo "<pre>"; print_r($data); die;
-
-//            if ($data['qty'] > $availableStock['product_qty']) {
-//                $getCartItems = Cart::getCartItems();
-//                return response()->json([
-//                   'status' => false,
-//                   'message' => 'Product stock is not available.',
-//                   'view' =>  (String)View::make('frontend.layout.page.shopping_cart')->with(compact('getCartItems'))
-//                ]);
-//            }
-
-            Cart::where('id', $data['cartid'])->update(['quantity' => $data['qty']]);
-            $getCartItems = Cart::getCartItems();
-            return response()->json([
-               'status' => true,
-               'view' => (String)View::make('frontend.layout.page.shopping_cart')->with(compact('getCartItems'))
-            ]);
+        if ($qty > $stock) {
+            return redirect()->route('cart')->with('error', 'Product quantity not enough.');
         }
+        else if($qty < 1) {
+            return redirect()->route('cart')->with('error', 'Product quantity must be bigger than 1.');
+        }
+        else {
+            $input = $request->all();
+
+            $cart = Cart::find($cartId);
+
+            $cart->quantity = $qty;
+
+            $cart->save();
+
+            return redirect()->route('cart')->with('success', 'Cart updated successfully.');
+        }
+
     }
 
-    public function remove(Cart $id) {
-        $id->delete();
-        return redirect()->route('cart')->with('success', 'Cart deleted successfully.');
+//    public function remove(Cart $id) {
+//        $id->delete();
+//        return redirect()->route('cart')->with('success', 'Cart deleted successfully.');
+//    }
+
+//    public function update(Request $request) {
+//        $cart = Cart::where('user_id', Auth::user()->id)->where('product_id', $request->product_id)->update();
+//        session()->flash('success', 'Cart updated successfully.');
+//    }
+
+    public function remove(Request $request) {
+        $cart = Cart::where('user_id', Auth::user()->id)->where('product_id', $request->product_id)->delete();
+        session()->flash('success', 'Cart deleted successfully.');
     }
 }

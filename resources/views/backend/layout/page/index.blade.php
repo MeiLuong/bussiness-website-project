@@ -2,6 +2,89 @@
 
 @section('title', 'Dashboard')
 
+@section('style')
+    <link href="backend/css/jquery-ui.css" rel="stylesheet">
+{{--    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">--}}
+
+    <style type="text/css">
+
+        .tabs {
+            position: relative;
+            margin: 3rem 0;
+            background: orange;
+            height: 450px;
+        }
+        .tabs::before,
+        .tabs::after {
+            content: "";
+            display: table;
+        }
+        .tabs::after {
+            clear: both;
+        }
+        .tab {
+            float: left;
+        }
+        .tab-switch {
+            display: none;
+        }
+        .tab-label {
+            position: relative;
+            display: block;
+            line-height: 2.75em;
+            height: 3em;
+            padding: 0 1.618em;
+            background: orange;
+            border-right: 0.125rem solid orange;
+            color: #fff;
+            cursor: pointer;
+            top: 0;
+            transition: all 0.25s;
+        }
+        .tab-label:hover {
+            top: -0.25rem;
+            transition: top 0.25s;
+        }
+        .tab-content {
+            height: auto;
+            min-height: 12rem;
+            width: 100%;
+            position: absolute;
+            z-index: 1;
+            top: 2.75em;
+            left: 0;
+            padding: 1.618rem 1.618rem 0;
+            background: #fff;
+            color: #2c3e50;
+            border-bottom: 0.25rem solid #bdc3c7;
+            opacity: 0;
+            transition: all 0.35s;
+        }
+        .tab-switch:checked + .tab-label {
+            background: #fff;
+            color: #2c3e50;
+            border-bottom: 0;
+            border-right: 0.125rem solid #fff;
+            transition: all 0.35s;
+            z-index: 1;
+            top: -0.0625rem;
+        }
+        .tab-switch:checked + label + .tab-content {
+            z-index: 2;
+            opacity: 1;
+            transition: all 0.35s;
+        }
+    </style>
+@endsection
+
+@section('script')
+{{--    <script src="backend/js/jquery-ui.js"></script>--}}
+{{--    <script src="backend/js/jquery-3.6.0.js"></script>--}}
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+@endsection
+
 @section('body')
 
     <div class="row" style="margin-bottom: 30px">
@@ -146,265 +229,417 @@
         </div>
         <!-- /.col-->
     </div>
+
+{{--    row--}}
+    <div class="row">
+        <div class="col-md-12">
+            <form autocomplete="off">
+                @csrf
+
+                <div class="col-md-3">
+                    <p>From: <input type="text" id="datepicker" class="form-control"></p>
+                </div>
+                <div class="col-md-3">
+                    <label>To:</label>
+                    <input type="text" id="datepicker2" class="form-control"/>
+                    <input type="button" id="btn-dashboard-filter" class="btn btn-secondary" value="Filter"/>
+                </div>
+            </form>
+        </div>
+        <div class="row col-md-12" style="display: flex">
+            <div style="height: 250px;">
+                <canvas id="myChart" style="margin-right: 0"></canvas>
+            </div>
+            <div class="col-md-6">
+                <div class="tabs">
+                    <div class="tab">
+                        <input type="radio" name="css-tabs" id="tab-1" checked class="tab-switch">
+                        <label for="tab-1" class="tab-label">Day</label>
+                        <div class="tab-content">
+                            <div class="row">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h4 class="label">Estimated Revenue:</h4>
+                                        <strong class="value">RM
+                                            @if(empty($productQtyDay->revenue))
+                                                0
+                                            @else
+                                                {{ $productQtyDay->revenue }}
+                                            @endif
+
+                                        </strong>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 class="label">Order:</h4>
+                                        <p class="value">{{ $countOrderDay }}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <table class="table border mb-0">
+                                        <thead class="table-light fw-semibold">
+                                        <tr class="align-middle">
+                                            <th>No</th>
+                                            <th>Name</th>
+                                            <th>Price</th>
+                                            <th class="text-center">Sell number</th>
+                                            <th class="text-center">Qty Remaining</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        $no = 0;
+                                        ?>
+                                        @if(count($bestSellerDays) == 0)
+                                            <tr class="text-center">
+                                                <td colspan="5">
+                                                    No data.
+                                                </td>
+                                            </tr>
+                                        @else
+                                            @foreach($bestSellerDays as $bestSellerDay)
+                                                    <?php
+                                                    $no++
+                                                    ?>
+                                                <tr class="align-middle">
+                                                    <td>
+                                                            <?= $no ?>
+                                                    </td>
+                                                    <td>
+                                                        {{ $bestSellerDay->product_name }}
+                                                    </td>
+                                                    <td>
+                                                        RM{{ $bestSellerDay->product_price }}
+                                                    </td>
+
+                                                    <td class="text-center">
+                                                        {{ $bestSellerDay->total }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{ $bestSellerDay->qty_remain }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="tab">
+                        <input type="radio" name="css-tabs" id="tab-2" class="tab-switch">
+                        <label for="tab-2" class="tab-label">Week</label>
+                        <div class="tab-content">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4 class="label">Estimated Revenue:</h4>
+                                    <strong class="value">RM
+                                        @if(empty($productQtyWeek->revenue))
+                                            0
+                                        @else
+                                            {{ $productQtyWeek->revenue }}
+                                        @endif
+
+                                    </strong>
+                                </div>
+                                <div class="col-md-6">
+                                    <h4 class="label">Order:</h4>
+                                    <p class="value">{{ $countOrderWeek }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <table class="table border mb-0">
+                                    <thead class="table-light fw-semibold">
+                                    <tr class="align-middle">
+                                        <th>No</th>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th class="text-center">Sell number</th>
+                                        <th class="text-center">Qty Remaining</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $no = 0;
+                                    ?>
+                                    @if(count($bestSellerWeeks) == 0)
+                                        <tr class="text-center">
+                                            <td colspan="5">
+                                                No data.
+                                            </td>
+                                        </tr>
+                                    @else
+                                        @foreach($bestSellerWeeks as $bestSellerWeek)
+                                                <?php
+                                                $no++
+                                                ?>
+                                            <tr class="align-middle">
+                                                <td>
+                                                        <?= $no ?>
+                                                </td>
+                                                <td>
+                                                    {{ $bestSellerWeek->product_name }}
+                                                </td>
+                                                <td>
+                                                    RM{{ $bestSellerWeek->product_price }}
+                                                </td>
+
+                                                <td class="text-center">
+                                                    {{ $bestSellerWeek->total }}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ $bestSellerWeek->qty_remain }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab">
+                        <input type="radio" name="css-tabs" id="tab-3" class="tab-switch">
+                        <label for="tab-3" class="tab-label">Month</label>
+                        <div class="tab-content">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4 class="label">Estimated Revenue:</h4>
+                                    <strong class="value">RM
+                                        @if(empty($productQtyMonth->revenue))
+                                            0
+                                        @else
+                                            {{ $productQtyMonth->revenue }}
+                                        @endif
+
+                                    </strong>
+                                </div>
+                                <div class="col-md-6">
+                                    <h4 class="label">Order:</h4>
+                                    <p class="value">{{ $countOrderMonth }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <table class="table border mb-0">
+                                    <thead class="table-light fw-semibold">
+                                    <tr class="align-middle">
+                                        <th>No</th>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th class="text-center">Sell number</th>
+                                        <th class="text-center">Qty Remaining</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $no = 0;
+                                    ?>
+                                    @if(count($bestSellerMonths) == 0)
+                                        <tr class="text-center">
+                                            <td colspan="5">
+                                                No data.
+                                            </td>
+                                        </tr>
+                                    @else
+                                        @foreach($bestSellerMonths as $bestSellerMonth)
+                                                <?php
+                                                $no++
+                                                ?>
+                                            <tr class="align-middle">
+                                                <td>
+                                                        <?= $no ?>
+                                                </td>
+                                                <td>
+                                                    {{ $bestSellerMonth->product_name }}
+                                                </td>
+                                                <td>
+                                                    RM{{ $bestSellerMonth->product_price }}
+                                                </td>
+
+                                                <td class="text-center">
+                                                    {{ $bestSellerMonth->total }}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ $bestSellerMonth->qty_remain }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab">
+                        <input type="radio" name="css-tabs" id="tab-4" class="tab-switch">
+                        <label for="tab-4" class="tab-label">Year</label>
+                        <div class="tab-content">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4 class="label">Estimated Revenue:</h4>
+                                    <strong class="value">RM
+                                        @if(empty($productQtyYear->revenue))
+                                            0
+                                        @else
+                                            {{ $productQtyYear->revenue }}
+                                        @endif
+
+                                    </strong>
+                                </div>
+                                <div class="col-md-6">
+                                    <h4 class="label">Order:</h4>
+                                    <p class="value">{{ $countOrderYear }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <table class="table border mb-0">
+                                    <thead class="table-light fw-semibold">
+                                    <tr class="align-middle">
+                                        <th>No</th>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th class="text-center">Sell number</th>
+                                        <th class="text-center">Qty Remaining</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $no = 0;
+                                    ?>
+
+                                    @if(count($bestSellerYears) == 0)
+                                        <tr class="text-center">
+                                            <td colspan="5">
+                                                No data.
+                                            </td>
+                                        </tr>
+                                    @else
+                                        @foreach($bestSellerYears as $bestSellerYear)
+                                                <?php
+                                                $no++
+                                                ?>
+                                            <tr class="align-middle">
+                                                <td>
+                                                        <?= $no ?>
+                                                </td>
+                                                <td>
+                                                    {{ $bestSellerYear->product_name }}
+                                                </td>
+                                                <td>
+                                                    RM{{ $bestSellerYear->product_price }}
+                                                </td>
+
+                                                <td class="text-center">
+                                                    {{ $bestSellerYear->total }}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ $bestSellerYear->qty_remain }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{{--    end row--}}
+
     <!-- /.row-->
     <div class="row">
         <div class="col-md-12">
-            <div class="card mb-4">
-                <div class="card-header">Traffic &amp; Sales</div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="border-start border-start-4 border-start-info px-3 mb-3"><small class="text-medium-emphasis">New Clients</small>
-                                        <div class="fs-5 fw-semibold">9.123</div>
-                                    </div>
-                                </div>
-                                <!-- /.col-->
-                                <div class="col-6">
-                                    <div class="border-start border-start-4 border-start-danger px-3 mb-3"><small class="text-medium-emphasis">Recuring Clients</small>
-                                        <div class="fs-5 fw-semibold">22.643</div>
-                                    </div>
-                                </div>
-                                <!-- /.col-->
-                            </div>
-                            <!-- /.row-->
-                            <hr class="mt-0">
-                            <div class="progress-group mb-4">
-                                <div class="progress-group-prepend"><span class="text-medium-emphasis small">Monday</span></div>
-                                <div class="progress-group-bars">
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 34%" aria-valuenow="34" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 78%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="progress-group mb-4">
-                                <div class="progress-group-prepend"><span class="text-medium-emphasis small">Tuesday</span></div>
-                                <div class="progress-group-bars">
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 56%" aria-valuenow="56" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 94%" aria-valuenow="94" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="progress-group mb-4">
-                                <div class="progress-group-prepend"><span class="text-medium-emphasis small">Wednesday</span></div>
-                                <div class="progress-group-bars">
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 12%" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 67%" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="progress-group mb-4">
-                                <div class="progress-group-prepend"><span class="text-medium-emphasis small">Thursday</span></div>
-                                <div class="progress-group-bars">
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 43%" aria-valuenow="43" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 91%" aria-valuenow="91" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="progress-group mb-4">
-                                <div class="progress-group-prepend"><span class="text-medium-emphasis small">Friday</span></div>
-                                <div class="progress-group-bars">
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 22%" aria-valuenow="22" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 73%" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="progress-group mb-4">
-                                <div class="progress-group-prepend"><span class="text-medium-emphasis small">Saturday</span></div>
-                                <div class="progress-group-bars">
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 53%" aria-valuenow="53" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 82%" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="progress-group mb-4">
-                                <div class="progress-group-prepend"><span class="text-medium-emphasis small">Sunday</span></div>
-                                <div class="progress-group-bars">
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 9%" aria-valuenow="9" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 69%" aria-valuenow="69" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.col-->
-                        <div class="col-sm-6">
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="border-start border-start-4 border-start-warning px-3 mb-3"><small class="text-medium-emphasis">Pageviews</small>
-                                        <div class="fs-5 fw-semibold">78.623</div>
-                                    </div>
-                                </div>
-                                <!-- /.col-->
-                                <div class="col-6">
-                                    <div class="border-start border-start-4 border-start-success px-3 mb-3"><small class="text-medium-emphasis">Organic</small>
-                                        <div class="fs-5 fw-semibold">49.123</div>
-                                    </div>
-                                </div>
-                                <!-- /.col-->
-                            </div>
-                            <!-- /.row-->
-                            <hr class="mt-0">
-                            <div class="progress-group">
-                                <div class="progress-group-header">
-                                    <svg class="icon icon-lg me-2">
-                                        <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-user"></use>
-                                    </svg>
-                                    <div>Male</div>
-                                    <div class="ms-auto fw-semibold">43%</div>
-                                </div>
-                                <div class="progress-group-bars">
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 43%" aria-valuenow="43" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="progress-group mb-5">
-                                <div class="progress-group-header">
-                                    <svg class="icon icon-lg me-2">
-                                        <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-user-female"></use>
-                                    </svg>
-                                    <div>Female</div>
-                                    <div class="ms-auto fw-semibold">37%</div>
-                                </div>
-                                <div class="progress-group-bars">
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 43%" aria-valuenow="43" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="progress-group">
-                                <div class="progress-group-header">
-                                    <svg class="icon icon-lg me-2">
-                                        <use xlink:href="node_modules/@coreui/icons/sprites/brand.svg#cib-google"></use>
-                                    </svg>
-                                    <div>Organic Search</div>
-                                    <div class="ms-auto fw-semibold me-2">191.235</div>
-                                    <div class="text-medium-emphasis small">(56%)</div>
-                                </div>
-                                <div class="progress-group-bars">
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 56%" aria-valuenow="56" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="progress-group">
-                                <div class="progress-group-header">
-                                    <svg class="icon icon-lg me-2">
-                                        <use xlink:href="node_modules/@coreui/icons/sprites/brand.svg#cib-facebook-f"></use>
-                                    </svg>
-                                    <div>Facebook</div>
-                                    <div class="ms-auto fw-semibold me-2">51.223</div>
-                                    <div class="text-medium-emphasis small">(15%)</div>
-                                </div>
-                                <div class="progress-group-bars">
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="progress-group">
-                                <div class="progress-group-header">
-                                    <svg class="icon icon-lg me-2">
-                                        <use xlink:href="node_modules/@coreui/icons/sprites/brand.svg#cib-twitter"></use>
-                                    </svg>
-                                    <div>Twitter</div>
-                                    <div class="ms-auto fw-semibold me-2">37.564</div>
-                                    <div class="text-medium-emphasis small">(11%)</div>
-                                </div>
-                                <div class="progress-group-bars">
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 11%" aria-valuenow="11" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="progress-group">
-                                <div class="progress-group-header">
-                                    <svg class="icon icon-lg me-2">
-                                        <use xlink:href="node_modules/@coreui/icons/sprites/brand.svg#cib-linkedin"></use>
-                                    </svg>
-                                    <div>LinkedIn</div>
-                                    <div class="ms-auto fw-semibold me-2">27.319</div>
-                                    <div class="text-medium-emphasis small">(8%)</div>
-                                </div>
-                                <div class="progress-group-bars">
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 8%" aria-valuenow="8" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.col-->
-                    </div>
-                    <!-- /.row--><br>
-                    <div class="table-responsive">
-                        <table class="table border mb-0">
-                            <thead class="table-light fw-semibold">
+            <div class="card mb-4" style="margin-top: 30px">
+                <div class="table-responsive">
+                    <h1>Best Sellers</h1>
+                    <table class="table border mb-0">
+                        <thead class="table-light fw-semibold">
+                        <tr class="align-middle">
+                            <th>No</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th class="text-center">Sell number</th>
+                            <th class="text-center">Qty remaining</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        $no = 0;
+                        ?>
+                        @foreach($bestSellers as $bestSeller)
+                                <?php
+                                $no++
+                                ?>
                             <tr class="align-middle">
-                                <th class="text-center">
-                                    <svg class="icon">
-                                        <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-people"></use>
-                                    </svg>
-                                </th>
-                                <th>User</th>
-                                <th class="text-center">Country</th>
-                                <th>Usage</th>
-                                <th class="text-center">Payment Method</th>
-                                <th>Activity</th>
-                                <th></th>
+                                <td>
+                                        <?= $no ?>
+                                </td>
+                                <td>
+                                    {{ $bestSeller->product_name }}
+                                </td>
+                                <td>
+                                    RM{{ $bestSeller->product_price }}
+                                </td>
+
+                                <td class="text-center">
+                                    {{ $bestSeller->total }}
+                                </td>
+                                <td class="text-center">
+                                    {{ $bestSeller->qty_remaining }}
+                                </td>
                             </tr>
-                            </thead>
-                            <tbody>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /.col-->
+    </div>
+    <!-- /.row-->
+
+    <!-- /.row-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4" style="margin-top: 30px">
+                <div class="table-responsive">
+                    <h1>New Customers</h1>
+                    <table class="table border mb-0">
+                        <thead class="table-light fw-semibold">
+                        <tr class="align-middle">
+                            <th>No</th>
+                            <th>User</th>
+                            <th class="text-center">Address</th>
+                            <th>Activity</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        $no = 0;
+                        ?>
+                        @foreach($newCustomers as $newCustomer)
+                            <?php
+                                $no++
+                                ?>
                             <tr class="align-middle">
-                                <td class="text-center">
-                                    <div class="avatar avatar-md"><img class="avatar-img" src="assets/img/avatars/1.jpg" alt="user@email.com"><span class="avatar-status bg-success"></span></div>
+                                <td>
+                                    <?= $no ?>
                                 </td>
                                 <td>
-                                    <div>Yiorgos Avraamu</div>
-                                    <div class="small text-medium-emphasis"><span>New</span> | Registered: Jan 1, 2020</div>
+                                    <div>{{ $newCustomer->name }}</div>
+                                    <div class="small text-medium-emphasis"><span>New</span> | Registered: {{ date('M d, Y', strtotime($newCustomer->created_at)) }}</div>
                                 </td>
                                 <td class="text-center">
-                                    <svg class="icon icon-xl">
-                                        <use xlink:href="node_modules/@coreui/icons/sprites/flag.svg#cif-us"></use>
-                                    </svg>
+                                    {{ $newCustomer->address }}
                                 </td>
-                                <td>
-                                    <div class="clearfix">
-                                        <div class="float-start">
-                                            <div class="fw-semibold">50%</div>
-                                        </div>
-                                        <div class="float-end"><small class="text-medium-emphasis">Jun 11, 2020 - Jul 10, 2020</small></div>
-                                    </div>
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td class="text-center">
-                                    <svg class="icon icon-xl">
-                                        <use xlink:href="node_modules/@coreui/icons/sprites/brand.svg#cib-cc-mastercard"></use>
-                                    </svg>
-                                </td>
+
                                 <td>
                                     <div class="small text-medium-emphasis">Last login</div>
                                     <div class="fw-semibold">10 sec ago</div>
@@ -420,229 +655,9 @@
                                     </div>
                                 </td>
                             </tr>
-                            <tr class="align-middle">
-                                <td class="text-center">
-                                    <div class="avatar avatar-md"><img class="avatar-img" src="assets/img/avatars/2.jpg" alt="user@email.com"><span class="avatar-status bg-danger"></span></div>
-                                </td>
-                                <td>
-                                    <div>Avram Tarasios</div>
-                                    <div class="small text-medium-emphasis"><span>Recurring</span> | Registered: Jan 1, 2020</div>
-                                </td>
-                                <td class="text-center">
-                                    <svg class="icon icon-xl">
-                                        <use xlink:href="node_modules/@coreui/icons/sprites/flag.svg#cif-br"></use>
-                                    </svg>
-                                </td>
-                                <td>
-                                    <div class="clearfix">
-                                        <div class="float-start">
-                                            <div class="fw-semibold">10%</div>
-                                        </div>
-                                        <div class="float-end"><small class="text-medium-emphasis">Jun 11, 2020 - Jul 10, 2020</small></div>
-                                    </div>
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td class="text-center">
-                                    <svg class="icon icon-xl">
-                                        <use xlink:href="node_modules/@coreui/icons/sprites/brand.svg#cib-cc-visa"></use>
-                                    </svg>
-                                </td>
-                                <td>
-                                    <div class="small text-medium-emphasis">Last login</div>
-                                    <div class="fw-semibold">5 minutes ago</div>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <svg class="icon">
-                                                <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-options"></use>
-                                            </svg>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Info</a><a class="dropdown-item" href="#">Edit</a><a class="dropdown-item text-danger" href="#">Delete</a></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="align-middle">
-                                <td class="text-center">
-                                    <div class="avatar avatar-md"><img class="avatar-img" src="assets/img/avatars/3.jpg" alt="user@email.com"><span class="avatar-status bg-warning"></span></div>
-                                </td>
-                                <td>
-                                    <div>Quintin Ed</div>
-                                    <div class="small text-medium-emphasis"><span>New</span> | Registered: Jan 1, 2020</div>
-                                </td>
-                                <td class="text-center">
-                                    <svg class="icon icon-xl">
-                                        <use xlink:href="node_modules/@coreui/icons/sprites/flag.svg#cif-in"></use>
-                                    </svg>
-                                </td>
-                                <td>
-                                    <div class="clearfix">
-                                        <div class="float-start">
-                                            <div class="fw-semibold">74%</div>
-                                        </div>
-                                        <div class="float-end"><small class="text-medium-emphasis">Jun 11, 2020 - Jul 10, 2020</small></div>
-                                    </div>
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 74%" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td class="text-center">
-                                    <svg class="icon icon-xl">
-                                        <use xlink:href="node_modules/@coreui/icons/sprites/brand.svg#cib-cc-stripe"></use>
-                                    </svg>
-                                </td>
-                                <td>
-                                    <div class="small text-medium-emphasis">Last login</div>
-                                    <div class="fw-semibold">1 hour ago</div>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <svg class="icon">
-                                                <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-options"></use>
-                                            </svg>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Info</a><a class="dropdown-item" href="#">Edit</a><a class="dropdown-item text-danger" href="#">Delete</a></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="align-middle">
-                                <td class="text-center">
-                                    <div class="avatar avatar-md"><img class="avatar-img" src="assets/img/avatars/4.jpg" alt="user@email.com"><span class="avatar-status bg-secondary"></span></div>
-                                </td>
-                                <td>
-                                    <div>Enéas Kwadwo</div>
-                                    <div class="small text-medium-emphasis"><span>New</span> | Registered: Jan 1, 2020</div>
-                                </td>
-                                <td class="text-center">
-                                    <svg class="icon icon-xl">
-                                        <use xlink:href="node_modules/@coreui/icons/sprites/flag.svg#cif-fr"></use>
-                                    </svg>
-                                </td>
-                                <td>
-                                    <div class="clearfix">
-                                        <div class="float-start">
-                                            <div class="fw-semibold">98%</div>
-                                        </div>
-                                        <div class="float-end"><small class="text-medium-emphasis">Jun 11, 2020 - Jul 10, 2020</small></div>
-                                    </div>
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 98%" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td class="text-center">
-                                    <svg class="icon icon-xl">
-                                        <use xlink:href="node_modules/@coreui/icons/sprites/brand.svg#cib-cc-paypal"></use>
-                                    </svg>
-                                </td>
-                                <td>
-                                    <div class="small text-medium-emphasis">Last login</div>
-                                    <div class="fw-semibold">Last month</div>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <svg class="icon">
-                                                <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-options"></use>
-                                            </svg>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Info</a><a class="dropdown-item" href="#">Edit</a><a class="dropdown-item text-danger" href="#">Delete</a></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="align-middle">
-                                <td class="text-center">
-                                    <div class="avatar avatar-md"><img class="avatar-img" src="assets/img/avatars/5.jpg" alt="user@email.com"><span class="avatar-status bg-success"></span></div>
-                                </td>
-                                <td>
-                                    <div>Agapetus Tadeáš</div>
-                                    <div class="small text-medium-emphasis"><span>New</span> | Registered: Jan 1, 2020</div>
-                                </td>
-                                <td class="text-center">
-                                    <svg class="icon icon-xl">
-                                        <use xlink:href="node_modules/@coreui/icons/sprites/flag.svg#cif-es"></use>
-                                    </svg>
-                                </td>
-                                <td>
-                                    <div class="clearfix">
-                                        <div class="float-start">
-                                            <div class="fw-semibold">22%</div>
-                                        </div>
-                                        <div class="float-end"><small class="text-medium-emphasis">Jun 11, 2020 - Jul 10, 2020</small></div>
-                                    </div>
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 22%" aria-valuenow="22" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td class="text-center">
-                                    <svg class="icon icon-xl">
-                                        <use xlink:href="node_modules/@coreui/icons/sprites/brand.svg#cib-cc-apple-pay"></use>
-                                    </svg>
-                                </td>
-                                <td>
-                                    <div class="small text-medium-emphasis">Last login</div>
-                                    <div class="fw-semibold">Last week</div>
-                                </td>
-                                <td>
-                                    <div class="dropdown dropup">
-                                        <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <svg class="icon">
-                                                <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-options"></use>
-                                            </svg>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Info</a><a class="dropdown-item" href="#">Edit</a><a class="dropdown-item text-danger" href="#">Delete</a></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="align-middle">
-                                <td class="text-center">
-                                    <div class="avatar avatar-md"><img class="avatar-img" src="assets/img/avatars/6.jpg" alt="user@email.com"><span class="avatar-status bg-danger"></span></div>
-                                </td>
-                                <td>
-                                    <div>Friderik Dávid</div>
-                                    <div class="small text-medium-emphasis"><span>New</span> | Registered: Jan 1, 2020</div>
-                                </td>
-                                <td class="text-center">
-                                    <svg class="icon icon-xl">
-                                        <use xlink:href="node_modules/@coreui/icons/sprites/flag.svg#cif-pl"></use>
-                                    </svg>
-                                </td>
-                                <td>
-                                    <div class="clearfix">
-                                        <div class="float-start">
-                                            <div class="fw-semibold">43%</div>
-                                        </div>
-                                        <div class="float-end"><small class="text-medium-emphasis">Jun 11, 2020 - Jul 10, 2020</small></div>
-                                    </div>
-                                    <div class="progress progress-thin">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 43%" aria-valuenow="43" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td class="text-center">
-                                    <svg class="icon icon-xl">
-                                        <use xlink:href="node_modules/@coreui/icons/sprites/brand.svg#cib-cc-amex"></use>
-                                    </svg>
-                                </td>
-                                <td>
-                                    <div class="small text-medium-emphasis">Last login</div>
-                                    <div class="fw-semibold">Yesterday</div>
-                                </td>
-                                <td>
-                                    <div class="dropdown dropup">
-                                        <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <svg class="icon">
-                                                <use xlink:href="node_modules/@coreui/icons/sprites/free.svg#cil-options"></use>
-                                            </svg>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Info</a><a class="dropdown-item" href="#">Edit</a><a class="dropdown-item text-danger" href="#">Delete</a></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                        @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

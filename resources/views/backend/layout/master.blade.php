@@ -87,6 +87,12 @@
 <script src="backend/js/coreui-utils.js"></script>
 <script src="backend/js/main.js"></script>
 <script src="backend/assets/CKEditor/ckeditor4.20.2/ckeditor.js"></script>
+
+{{--chart--}}
+<script src="backend/js/charts.js"></script>
+<script src="backend/js/chart.js"></script>
+{{--end chart--}}
+
 <script type="text/javascript">
     $(document).ready(function () {
         $('.ckeditor').ckeditor();

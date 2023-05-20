@@ -24,7 +24,7 @@
                             <span class="meta-author">- <span class="fcp-account"></span> {{ $blog->author }}</span>
                         </div>
                         <h3 class="card-title">
-                            <a href="/blogs/{{ $blog->id }}" class="blog-link">
+                            <a href="/blogs/{{ $blog->id }}" class="blog-link link-theme">
                                 {{ $blog->title }}
                             </a>
                         </h3>

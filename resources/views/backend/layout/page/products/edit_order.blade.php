@@ -16,6 +16,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="text-end">
+                    @if($order->status != 'cancel')
+                        <a target="_blank" href="{{ route('print-order', $order->id) }}" class="btn btn-info">Print Order</a>
+                    @endif
+
+
                     <a href="{{ route('orders') }}" class="btn btn-secondary">
                         Back
                     </a>

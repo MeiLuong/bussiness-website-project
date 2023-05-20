@@ -10,9 +10,7 @@
     <div class="row">
         <div class="tool-bar">
             <div class="actions">
-                <a href="{{ route('create_product') }}" class="action-link">
-                    <button class="action add-new">Add New</button>
-                </a>
+
             </div>
         </div>
         <div class="table-container">

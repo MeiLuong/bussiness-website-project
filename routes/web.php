@@ -52,8 +52,10 @@ Route::prefix('home')->group(function () {
 // shopping cart
 Route::get('cart', [Frontend\ShoppingCartController::class, 'cart'])->name('cart');
 Route::post('cart/add-to-cart/{id}', [Frontend\ShoppingCartController::class, 'addToCart'])->name('add_to_cart');
-Route::post('update_cart', [Frontend\ShoppingCartController::class, 'update'])->name('update_cart');
-Route::delete('remove-from-cart/{id}', [Frontend\ShoppingCartController::class, 'remove'])->name('remove_from_cart');
+//Route::post('cart/update/{id}', [Frontend\ShoppingCartController::class, 'update'])->name('update_cart');
+Route::post('cart-update', [Frontend\ShoppingCartController::class, 'update'])->name('update_cart');
+Route::get('cart/remove', [Frontend\ShoppingCartController::class, 'remove'])->name('remove_cart');
+//Route::delete('remove-from-cart/{id}', [Frontend\ShoppingCartController::class, 'remove'])->name('remove_from_cart');
 
 //wishlist
 Route::post('wishlist', [Frontend\WishListController::class, 'toWishlist'])->name('add_to_wishlist');
@@ -75,6 +77,7 @@ Route::get('admin', [Backend\AdminController::class, 'index', \Illuminate\Suppor
 Route::post('admin', [Backend\AdminController::class, 'login'])->name('postLoginAd');
 Route::get('admin/dashboard', [Backend\DashboardController::class, 'index']);
 Route::get('admin/logout', [Backend\AdminController::class, 'logOut'])->name('logoutAdmin');
+Route::post('admin/filter-by-date', [Backend\AdminController::class, 'filter_by_date'])->name('filter_by_date');
 
 
 
@@ -103,7 +106,7 @@ Route::get('admin/category/create', [Backend\CategoryController::class, 'add'])-
 Route::post('admin/category/postCategory', [Backend\CategoryController::class, 'save'])->name('post_category');
 Route::get('admin/category/edit/{id}', [Backend\CategoryController::class, 'edit'])->name('edit_category');
 Route::put('admin/category/{id}', [Backend\CategoryController::class, 'update'])->name('update_category');
-Route::delete('admin/category/delete/{id}', [Backend\CategoryController::class, 'delete'])->name('delete_category');
+//Route::delete('admin/category/delete/{id}', [Backend\CategoryController::class, 'delete'])->name('delete_category');
 
 
 //brand
@@ -112,7 +115,7 @@ Route::get('admin/brand/create', [Backend\BrandController::class, 'add'])->name(
 Route::post('admin/brand/postBrand', [Backend\BrandController::class, 'save'])->name('post_brand');
 Route::get('admin/brand/edit/{id}', [Backend\BrandController::class, 'edit'])->name('edit_brand');
 Route::put('admin/brand/{id}', [Backend\BrandController::class, 'update'])->name('update_brand');
-Route::delete('admin/brand/delete/{id}', [Backend\BrandController::class, 'delete'])->name('delete_brand');
+//Route::delete('admin/brand/delete/{id}', [Backend\BrandController::class, 'delete'])->name('delete_brand');
 
 //banner
 Route::get('admin/banner', [Backend\BannerController::class, 'index'])->name('banners');
@@ -158,6 +161,8 @@ Route::get('/admin/orders/shipments', [Backend\CheckoutController::class, 'shipm
 Route::get('/admin/orders/cancels', [Backend\CheckoutController::class, 'cancels'])->name('cancels');
 Route::get('admin/orders/edit/{id}', [Backend\CheckoutController::class, 'edit'])->name('edit_order');
 Route::post('admin/orders/{id}', [Backend\CheckoutController::class, 'update'])->name('update_order');
+Route::get('/admin/print-order/{id}', [Backend\CheckoutController::class, 'printOrder'])->name('print-order');
+
 
 
 

@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class CategoryController extends Controller
@@ -69,8 +70,8 @@ class CategoryController extends Controller
         return redirect()->route('category')->with('success', 'Category updated successfully.');
     }
 
-    public function delete(Category $id) {
-        $id->delete();
-        return redirect()->route('category')->with('success', 'Category deleted successfully.');
-    }
+//    public function delete(Category $id) {
+//        $id->delete();
+//        return redirect()->route('category')->with('success', 'Category deleted successfully.');
+//    }
 }

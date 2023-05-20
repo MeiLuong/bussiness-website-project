@@ -47,11 +47,11 @@
 
                         <div class="rating-info-wrapper">
                             <div class="rating-person">
-                                <span class="label">Review by </span>
+                                <strong class="label">Review by </strong>
                                 <span class="value">{{ $productReview->name }}</span>
                             </div>
                             <div class="rating-date">
-                                <span class="label">Posted on </span>
+                                <strong class="label">Posted on </strong>
                                 <span class="value">{{ date('M d, Y', strtotime($productReview->created_at)) }}</span>
                             </div>
                         </div>
@@ -65,7 +65,7 @@
                         <input type="hidden" name="product_id" value="{{ $product->id }}"/>
                         <input type="hidden" name="user_id" value="{{ \Illuminate\Support\Facades\Auth::user()->id ?? null }}"/>
 
-                        <fieldset>
+                        <fieldset style="max-width: 200px">
                             <label>Your rating: </label>
                             <div id="rating_group" class="rating-group">
                                 <input type="radio" id="start5" name="rating" value="5" />
@@ -97,7 +97,7 @@
                         </fieldset>
 
                         <div class="actions">
-                            <button type="submit" class="submit-review">Submit Review</button>
+                            <button type="submit" class="btn btn-primary submit-review">Submit Review</button>
                         </div>
 
                     </form>

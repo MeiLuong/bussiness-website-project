@@ -17,3 +17,13 @@ function slideImage(){
 }
 
 window.addEventListener('resize', slideImage);
+
+
+<script type="text/javascript">
+
+</script>
+$(document).ready(function(){
+    var prdStock = $('#product_stock').val();
+    var prdQty = $('#product_qty').val();
+
+});

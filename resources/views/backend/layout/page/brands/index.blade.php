@@ -14,15 +14,7 @@
                     <button class="action add-new">Add New</button>
                 </a>
             </div>
-            <div class="tool-bar">
-                <div class="actions search-group">
-                    <label class="label">ID:</label>
-                    <input type="text" id="" name="" class="text-input">
-                    <label class="label">Category name:</label>
-                    <input type="text" id="" name="" class="text-input">
-                    <button type="" class="action search">Search</button>
-                </div>
-            </div>
+
             <div class="table-container">
                 <table border="1" width="100%" class="table table-bordered table-striped table-responsive-stack">
                     <thead class="table-dark">
@@ -33,7 +25,6 @@
                         <th>Logo</th>
                         <th>Created at</th>
                         <th>Updated at</th>
-                        <th></th>
                         <th></th>
                     </tr>
                     </thead>
@@ -56,13 +47,7 @@
                             <td>
                                 <a href="{{ route('edit_brand', $brand->id) }}"><button class="btn btn-secondary btn-sm">Edit</button></a>
                             </td>
-                            <td>
-                                <form action="{{ route('delete_brand', $brand->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="action delete btn btn-danger btn-sm" onclick="return confirm('Do you want to delete this brand?')">Delete</button>
-                                </form>
-                            </td>
+
                         </tr>
                     @endforeach
                     </tbody>

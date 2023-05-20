@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Rules\MatchOldPassword;
@@ -125,5 +126,23 @@ class AdminController extends Controller
         else {
             return redirect()->back()->with('error', 'Current password does not match width old password.');
         }
+    }
+
+//    chart
+    public function filter_by_date(Request $request) {
+        $data = $request->all();
+        $from_date = $data['from_date'];
+        $to_date = $data['to_date'];
+
+        $get = Order::whereBetween('createed_at', [$from_date, $to_date])->orderBy('created_at', 'asc')->get();
+
+        foreach ($get as $val){
+            $chart_data = array(
+                'period' => $val->created_at,
+                'order' => $val->total
+            );
+        }
+
+        echo $data = json_encode($chart_data);
     }
 }

@@ -41,7 +41,6 @@
                         <th>Discount(%)</th>
                         <th>Status</th>
                         <th>Quantity</th>
-                        <th>Stock</th>
                         <th>Created at</th>
                         <th>Updated at</th>
                         <th></th>
@@ -74,15 +73,6 @@
                                 @endif
                             </td>
                             <td>{{ $product->product_qty }}</td>
-                            <td>
-                                <?php
-                                    $stock = $product->product_qty ;
-//                                    $stock = $product->orderDetails->qty ;
-                                ?>
-
-
-                                <?= $stock ?>
-                            </td>
                             <td>{{ $product->created_at }}</td>
                             <td>{{ $product->updated_at }}</td>
                             <td>

@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -36,8 +37,13 @@ class CheckoutController extends Controller
                 'total' => $cart->quantity * $cart->price
             ];
 
+            $qty = [
+                'product_qty' => $cart->product->product_qty - $cart->quantity
+            ];
+
             OrderDetail::create($data);
             Cart::where('product_id', $cart->product_id)->delete();
+            Product::where('id', $cart->product_id)->update($qty);
         }
 
         $orderId = $order->id;

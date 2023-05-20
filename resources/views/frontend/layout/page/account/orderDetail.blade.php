@@ -106,7 +106,7 @@
                                         <td class="text-end">RM0</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="3">Discount (Code: NEWYEAR)</td>
+                                        <td colspan="3">Discount (Code: none)</td>
                                         <td class="text-danger text-end">-RM0</td>
                                     </tr>
                                     <tr class="fw-bold">

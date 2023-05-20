@@ -77,16 +77,16 @@
                                     <a href="#">Track Your Order</a>
                                 </li>
                                 <li class="menu-item pb-2">
-                                    <a href="#">Returns Policies</a>
+                                    <a href="page/8">Returns Policies</a>
                                 </li>
                                 <li class="menu-item pb-2">
-                                    <a href="#">Shipping & Delivery</a>
+                                    <a href="page/10">Terms of Use</a>
                                 </li>
                                 <li class="menu-item pb-2">
-                                    <a href="#">Contact Us</a>
+                                    <a href="page/7">Privacy Policy</a>
                                 </li>
                                 <li class="menu-item pb-2">
-                                    <a href="#">Faqs</a>
+                                    <a href="page/9">Faqs</a>
                                 </li>
                             </ul>
                         </div>
